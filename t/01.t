@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Test::More tests => 55;
+use Test::More tests => 57;
 use Date::Simple;
 use Date::Range;
 
@@ -121,6 +121,17 @@ ok($range3->includes($range3), "Range includes itself");
 	ok $mar->abuts($feb), "Abuts M/F - yes";
 	ok !$mar->abuts($mar), "Abuts M/M - no";
 
+
+	my $r1 = Date::Range->new(
+		map Date::Simple->new($_), '2010-08-19', '2010-08-21'
+	);
+	my $r2 = Date::Range->new(
+		map Date::Simple->new($_), '2010-08-23', '2010-08-24'
+	);
+        # gap bug
+        ok(my $r3 = $r1->gap($r2),   "gap()");
+        # leads to abuts bug
+        ok !$r1->abuts($r2),         "Abuts r1/r2 - no";
 }
 
 
