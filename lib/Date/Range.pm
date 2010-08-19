@@ -168,7 +168,7 @@ sub gap {
   my @sorted = sort { $a->start <=> $b->start } ($self, $range);
 	my $start = $sorted[0]->end + $self->_day_length;
 	my $end = $sorted[1]->start - $self->_day_length;
-	return if $start >= $end;
+	return if $start > $end;
 	return $self->new($start, $end);
 }
 
